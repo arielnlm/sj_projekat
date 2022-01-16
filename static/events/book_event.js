@@ -4,7 +4,7 @@ function init() {
 }
 
 function showEvents(){
-    fetch('http://localhost:9000/admin/events')
+    fetch('http://localhost:9000/api/events')
         .then( res => res.json() )
         .then( data => {
             const lst = document.getElementById('eventList');
@@ -24,7 +24,7 @@ function comingEvent(obj){
 
     let id = obj.getAttribute('data-id');
     console.log("pozvan");
-    fetch('http://localhost:9000/admin/events/coming/' + id)
+    fetch('http://localhost:9000/api/events/coming/' + id)
         .then( res => res.json() )
         .then( data => {
             alert("Added you as one more guest!");

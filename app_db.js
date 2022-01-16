@@ -17,7 +17,7 @@ var corsOptions = {
 app.use(express.json());
 app.use(cors(corsOptions));
 
-app.use('/admin', adminRoutes);
+app.use('/api', adminRoutes);
 
 app.listen({ port: 9000 }, async () => {
     await sequelize.authenticate();

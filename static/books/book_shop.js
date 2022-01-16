@@ -10,7 +10,7 @@ function init() {
 }
 
 function showBooks(){
-    fetch('http://localhost:9000/admin/books')
+    fetch('http://localhost:9000/api/books')
         .then( res => res.json() )
         .then( data => {
             const lst = document.getElementById('bookList');
@@ -28,7 +28,7 @@ function showBooks(){
         });
 }
 function showMyBooks(){
-    fetch('http://localhost:9000/admin/books')
+    fetch('http://localhost:9000/api/books')
         .then( res => res.json() )
         .then( data => {
             const lst = document.getElementById('myBookList');
@@ -55,7 +55,7 @@ function removeBook(obj){
         userId: 0
     };
 
-    fetch('http://localhost:9000/admin/books/take/' + id,
+    fetch('http://localhost:9000/api/books/take/' + id,
         {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
@@ -78,7 +78,7 @@ function buyBook(obj){
         userId: userId
     };
 
-    fetch('http://localhost:9000/admin/books/take/' + id,
+    fetch('http://localhost:9000/api/books/take/' + id,
         {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },

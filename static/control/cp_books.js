@@ -1,7 +1,41 @@
+
+function validity(){
+    bname = document.getElementById('bName').value; 
+    bauthor = document.getElementById('bAuthor').value;
+    bdesc = document.getElementById('bDescription').value;
+    bid = document.getElementById('uname').value;
+
+    if(bname.length == 0){
+        document.getElementById('bName').style.borderColor = "red";
+    }
+    else{
+        document.getElementById('bName').style.removeProperty('border');
+    }
+    if(bauthor.length == 0){
+        document.getElementById('bAuthor').style.borderColor = "red";
+    }
+    else{
+        document.getElementById('bAuthor').style.removeProperty('border');
+    }
+    if(bdesc.length == 0){
+        document.getElementById('bDescription').style.borderColor = "red";
+    }
+    else{
+        document.getElementById('bDescription').style.removeProperty('border');
+    }
+    if(bid.length == 0){
+        document.getElementById('uname').style.borderColor = "red";
+    }
+    else{
+        document.getElementById('uname').style.removeProperty('border');
+    }
+}
+
 function init() {
 
     document.getElementById('bId').addEventListener('input', e =>{
-        fetch('http://localhost:9000/admin/books/' + document.getElementById('bId').value)
+        
+        fetch('http://localhost:9000/api/books/' + document.getElementById('bId').value)
         .then( res => res.json() )
         .then( book => {
             document.getElementById('bName').value = book.name;
@@ -12,11 +46,12 @@ function init() {
     });
     document.getElementById('editBook').addEventListener('click', e => {
         e.preventDefault();
+        validity();
         let bookId = document.getElementById('bId').value;
         let username = document.getElementById('uname').value;
     
         // Get userId from user name
-        fetch('http://localhost:9000/admin/users/name/' + username)
+        fetch('http://localhost:9000/api/users/name/' + username)
         .then( res => res.json() )
         .then( data => {
             const input = {
@@ -26,7 +61,7 @@ function init() {
                 userId: data.id
             };
     
-            fetch('http://localhost:9000/admin/books/' + bookId,
+            fetch('http://localhost:9000/api/books/' + bookId,
             {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
@@ -43,9 +78,10 @@ function init() {
     
     document.getElementById('addBook').addEventListener('click', e => {
         e.preventDefault();
+        validity();
         let username = document.getElementById('uname').value;
         if(username != ""){
-            fetch('http://localhost:9000/admin/users/name/' + username)
+            fetch('http://localhost:9000/api/users/name/' + username)
             .then( res => res.json() )
             .then( data => {
                 const input = {
@@ -54,7 +90,7 @@ function init() {
                     description: document.getElementById('bDescription').value,
                     userId: data.id
                 };
-                fetch('http://localhost:9000/admin/books', 
+                fetch('http://localhost:9000/api/books', 
                 {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -73,7 +109,7 @@ function init() {
                 description: document.getElementById('bDescription').value,
                 userId: 0
             };
-            fetch('http://localhost:9000/admin/books', 
+            fetch('http://localhost:9000/api/books', 
             {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -90,8 +126,13 @@ function init() {
         e.preventDefault();
 
         bookId = document.getElementById('bId').value;
-
-        fetch('http://localhost:9000/admin/books/' + bookId, 
+        if(bookId.length == 0){
+            document.getElementById('bId').style.borderColor = "red";
+        }
+        else{
+            document.getElementById('bId').style.removeProperty('border');
+        }
+        fetch('http://localhost:9000/api/books/' + bookId, 
         {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
@@ -107,14 +148,14 @@ function init() {
 }
 
 function showBooks(){
-    fetch('http://localhost:9000/admin/books')
+    fetch('http://localhost:9000/api/books')
         .then( res => res.json() )
         .then( data => {
             const lst = document.getElementById('bookList');
             lst.innerHTML = "";
             lst.innerHTML += `<tr><th> ID </th> <th> Name </th> <th> Author </th> <th> Description </th> <th> Belongs to </th></tr>`;
             data.forEach( el => { 
-                fetch('http://localhost:9000/admin/users/' + el.userId)
+                fetch('http://localhost:9000/api/users/' + el.userId)
                 .then( res => res.json() )
                 .then( user => {
                     if(user != null)
