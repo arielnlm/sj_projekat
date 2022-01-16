@@ -17,6 +17,22 @@ route.get('/:id', (req, res) => {
         .then( rows => res.json(rows) )
         .catch( err => res.status(500).json(err) );
 });
+
+// Get users message
+route.get('/user/:id', (req, res) => {
+    console.log("gadjao me jeesste ");
+    Messages.findOne({ where: { id: req.params.id } })
+        .then( rows => {
+            console.log("printam ovo")
+            console.log(rows);
+            res.json(rows)
+        } )
+        .catch( err => {
+            console.log("eror");
+            res.status(500).json(err) 
+        });
+});
+
 // Create message
 route.post('/', (req, res) => {
     messageSchema.validateAsync(req.body).then(obj => {
