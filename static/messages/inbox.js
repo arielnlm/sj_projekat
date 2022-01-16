@@ -9,14 +9,14 @@ function init() {
         // TODO: implement
         let name = document.getElementById('toWho').value;
 
-        fetch('http://127.0.0.1:9000/admin/users/name/' + name)
+        fetch('http://127.0.0.1:9000/api/users/name/' + name)
         .then( res => res.json() )
         .then( userObj => {
             const data = {
                 userId: userObj.id,
                 body: document.getElementById('body').value,
             };
-            fetch('http://127.0.0.1:9000/admin/messages/', {
+            fetch('http://127.0.0.1:9000/api/messages/', {
                 method: 'POST',
                 headers: { 
                 'Content-Type': 'application/json', 
@@ -43,10 +43,10 @@ function showMssgs(){
     // userId = res.userId;
     const lst = document.getElementById('msgs');
     // Get all messages
-    fetch('http://127.0.0.1:9000/admin/messages/')
+    fetch('http://127.0.0.1:9000/api/messages/')
         .then( res => res.json() )
         .then( data => {
-            fetch('http://127.0.0.1:9000/admin/users/' + userId)
+            fetch('http://127.0.0.1:9000/api/users/' + userId)
             .then( res => res.json() )
             .then( data2 => {
                 lst.innerHTML = `<tr> <th> ID </th> <th> Body </th> </tr>`;;

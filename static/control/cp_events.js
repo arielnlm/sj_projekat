@@ -1,7 +1,8 @@
 function init() {
 
     document.getElementById('eId').addEventListener('input', e =>{
-        fetch('http://localhost:9000/admin/events/' + document.getElementById('eId').value)
+        
+        fetch('http://localhost:9000/api/events/' + document.getElementById('eId').value)
         .then( res => res.json() )
         .then( event => {
             document.getElementById('eName').value = event.name;
@@ -18,6 +19,7 @@ function init() {
     });
     document.getElementById('editEvent').addEventListener('click', e => {
         e.preventDefault();
+        validity();
         let eventId = document.getElementById('eId').value;
         const input = {
             name: document.getElementById('eName').value,
@@ -28,7 +30,7 @@ function init() {
             guests: document.getElementById('eGuests').value
         };
 
-        fetch('http://localhost:9000/admin/events/' + eventId,
+        fetch('http://localhost:9000/api/events/' + eventId,
         {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
@@ -42,7 +44,7 @@ function init() {
     });
     document.getElementById('addEvent').addEventListener('click', e => {
         e.preventDefault();
-
+        validity();
         const input = {
             name: document.getElementById('eName').value,
             description: document.getElementById('eDescription').value,
@@ -51,7 +53,7 @@ function init() {
             host: document.getElementById('eHost').value,
             guests: document.getElementById('eGuests').value
         };
-        fetch('http://localhost:9000/admin/events', 
+        fetch('http://localhost:9000/api/events', 
         {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -64,9 +66,15 @@ function init() {
     });
     document.getElementById('deleteEvent').addEventListener('click', e => {
         e.preventDefault();
-        let eventId = document.getElementById('eId').value;
         
-        fetch('http://localhost:9000/admin/events/' + eventId, 
+        let eventId = document.getElementById('eId').value;
+        if(eventId.length == 0){
+            document.getElementById('eId').style.borderColor = "red";
+        }
+        else{
+            document.getElementById('eId').style.removeProperty('border');
+        }
+        fetch('http://localhost:9000/api/events/' + eventId, 
         {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
@@ -82,7 +90,7 @@ function init() {
 }
 
 function showEvents(){
-    fetch('http://localhost:9000/admin/events')
+    fetch('http://localhost:9000/api/events')
         .then( res => res.json() )
         .then( data => {
             const lst = document.getElementById('eventList');
@@ -93,3 +101,50 @@ function showEvents(){
             });
         });
 }
+
+function validity(){
+    ename = document.getElementById('eName').value,
+    edescription = document.getElementById('eDescription').value,
+    edate = document.getElementById('eDate').value,
+    etime = document.getElementById('eTime').value,
+    ehost = document.getElementById('eHost').value,
+    eguests = document.getElementById('eGuests').value
+
+    if(ename.length == 0){
+        document.getElementById('eName').style.borderColor = "red";
+    }
+    else{
+        document.getElementById('eName').style.removeProperty('border');
+    }
+    if(edescription.length == 0){
+        document.getElementById('eDescription').style.borderColor = "red";
+    }
+    else{
+        document.getElementById('eDescription').style.removeProperty('border');
+    }
+    if(edate.length == 0){
+        document.getElementById('eDate').style.borderColor = "red";
+    }
+    else{
+        document.getElementById('eDate').style.removeProperty('border');
+    }
+    if(etime.length == 0){
+        document.getElementById('eTime').style.borderColor = "red";
+    }
+    else{
+        document.getElementById('eTime').style.removeProperty('border');
+    }
+    if(ehost.length == 0){
+        document.getElementById('eHost').style.borderColor = "red";
+    }
+    else{
+        document.getElementById('eHost').style.removeProperty('border');
+    }
+    if(eguests.length == 0){
+        document.getElementById('eGuests').style.borderColor = "red";
+    }
+    else{
+        document.getElementById('eGuests').style.removeProperty('border');
+    }
+}
+
